@@ -5,7 +5,7 @@ struct linked _list{
     struct linked_list *next;
 };
 
-typedef struct linked_lits node;
+typedef struct linked_list node;
 node *head=NULL;
 node *current=NULL;
 int main (){
