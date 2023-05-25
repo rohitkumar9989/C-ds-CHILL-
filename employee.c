@@ -4,6 +4,7 @@
 struct employe_details {
     int roll_no;
     char name[15];
+    char password[10];
     struct token {
         char token[10];
     }token_;
@@ -21,6 +22,10 @@ void add_user(char nam[], int roll_no){
     newnode=(node *)malloc(sizeof(node));
     newnode->emp.roll_no=roll_no;
     strcpy(newnode->emp.name,nam);
+    printf("Enter the passoword: ");
+    char pass[10];
+    scanf("%s", pass);
+    strcpy(newnode->emp.password, pass);
     printf ("Enter the token: ");
     char t[10];
     scanf ("%s", t);
@@ -41,7 +46,27 @@ void add_user(char nam[], int roll_no){
     }
 }
 void search_user(){
-    
+    printf ("Enter the user roll: ");
+    int roll;
+    scanf ("%d",&roll);
+    FILE *pt;
+    pt=fopen("data.txt", "rb");
+    node *read;
+    read=(node *)malloc(sizeof(node));
+    fread(&read, sizeof(node *), 1, pt);
+    while (read!=NULL){
+        if (read->emp.roll_no==roll){
+            printf ("Name is %s", read->emp.name);
+            printf ("Enter the password: ");
+            char pass[10];
+            scanf ("%s", pass);
+            if (strcmp(pass, read->emp.password)==0){
+                printf ("The token is: %s\n", read->emp.token_.token);
+                break;
+            }
+        }
+    }
+    fclose(pt);
 }
 int main(){
     while (1){
@@ -59,6 +84,9 @@ int main(){
             add_user(name, rollno);
         }
         if (choi==2){
+            search_user();
+        }
+        if (choi==3){
             break;
         }
     }
