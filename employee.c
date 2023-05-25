@@ -3,7 +3,10 @@
 #include<string.h>
 struct employe_details {
     int roll_no;
-    char name[30];
+    char name[15];
+    struct token {
+        char token[10];
+    }token_;
 };
 struct linked_list {
     struct employe_details emp;
@@ -18,6 +21,10 @@ void add_user(char nam[], int roll_no){
     newnode=(node *)malloc(sizeof(node));
     newnode->emp.roll_no=roll_no;
     strcpy(newnode->emp.name,nam);
+    printf ("Enter the token: ");
+    char t[10];
+    scanf ("%s", t);
+    strcpy(newnode->emp.token_.token, t);
     newnode->next=NULL;
     if (head==NULL){
         head=newnode;
@@ -37,18 +44,22 @@ void search_user(){
     
 }
 int main(){
-    printf ("Enter the choices from below: \n1)Enter User\n2)Search User");
-    int choi;
-    scanf("%d", &choi);
-    if (choi==1){
-        printf ("Enter the user name, rollno:  ");
-        char name[30];
-        int rollno;
-        gets(name);
-        scanf("%d", &rollno);
-        add_user(name, rollno);
-    }
-    if (choi==2){
-        
+    while (1){
+        printf ("Enter the choices from below: \n1)Enter User\n2)Search User\nChoice:");
+        int choi;
+        scanf("%d", &choi);
+        if (choi==1){
+            printf ("Enter the user name, rollno:\n");
+            char name[30];
+            printf ("Enter the name: ");
+            scanf ("%s", name);
+            printf ("Enter the roll no: ");
+            int rollno;
+            scanf("%d", &rollno);
+            add_user(name, rollno);
+        }
+        if (choi==2){
+            break;
+        }
     }
 }
