@@ -64,6 +64,7 @@ void search_user(){
                 printf ("The token is: %s\n", read->emp.token_.token);
                 break;
             }
+            read=read->next;
         }
     }
     fclose(pt);
