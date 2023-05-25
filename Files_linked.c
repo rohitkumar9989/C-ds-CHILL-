@@ -1,60 +1,82 @@
 #include<stdio.h>
 #include<stdlib.h>
-struct linked_list{
-    int el;
+#include<string.h>
+struct employe_details {
+    int roll_no;
+    char name[15];
+    struct token {
+        char token[10];
+    }token_;
+};
+struct linked_list {
+    struct employe_details emp;
     struct linked_list *next;
 };
-
 typedef struct linked_list node;
 node *head=NULL;
 node *current=NULL;
-int main (){
-    printf ("Enter the length of the linked list: ");
-    int len;
-    scanf ("%d",&len);
-    for(int i=0; i<len; i++){
-        printf ("Enter the element: ");
-        node *newnode;
-        newnode=(node *)malloc(sizeof(node));
-        int ele;
-        scanf ("%d", &ele);
-        newnode->el=ele;
-        if (head == NULL){
-            head=newnode;;
-            newnode->next=NULL;
-            current=head;
-            
-        }
-        else{
-            current->next=newnode;
-            newnode->next=NULL;
-            current=newnode;
-            
-        }
+
+void add_user(char nam[], int roll_no){
+    node *newnode;
+    newnode=(node *)malloc(sizeof(node));
+    newnode->emp.roll_no=roll_no;
+    strcpy(newnode->emp.name,nam);
+    printf ("Enter the token: ");
+    char t[10];
+    scanf ("%s", t);
+    strcpy(newnode->emp.token_.token, t);
+    newnode->next=NULL;
+    if (head==NULL){
+        head=newnode;
+        current=newnode;
+        
+        FILE *pt;
+        pt=fopen("data.txt", "wb");
+        fwrite (&head, sizeof(node *),1, pt);
+        fclose(pt);
     }
-    printf ("Saving the data..\n");
-    FILE *ptr;
-    ptr=fopen("new.txt", "wb");
-    fwrite(&head, sizeof(node *),1, ptr);
-    printf ("Data written...\n");
-    fclose (ptr);
-    
-    // #################################### //
-    // Now a new pointer will be created in order to read the header data from the file and
-    // print the data 
+    else{
+        current->next=newnode;
+        current=newnode;
+    }
+}
+void search_user(){
+    printf ("Enter the user roll: ");
+    int roll;
+    scanf ("%d",&roll);
     FILE *pt;
-    node *tempo;
-    tempo=(node *)malloc(sizeof(node));
-    tempo=NULL;
-    pt=fopen ("new.txt", "rb");
-    fread(&tempo, sizeof(node *),1, pt);
-    printf ("The 1 element is: %d\n", tempo->el);
-    current=tempo->next;;
-    int i=1;
-    while (current!=NULL){
-        i++;
-        printf ("The %d element is: %d\n", i,current->el);
-        current=current->next;
+    pt=fopen("data.txt", "rb");
+    node *read;
+    read=(node *)malloc(sizeof(node));
+    fread(&read, sizeof(node *), 1, pt);
+    while (read!=NULL){
+        if (read->emp.roll_no==roll){
+            printf ("Name is %s", read->emp.name);
+            break;
+        }
     }
     fclose(pt);
+}
+int main(){
+    while (1){
+        printf ("Enter the choices from below: \n1)Enter User\n2)Search User\nChoice:");
+        int choi;
+        scanf("%d", &choi);
+        if (choi==1){
+            printf ("Enter the user name, rollno:\n");
+            char name[30];
+            printf ("Enter the name: ");
+            scanf ("%s", name);
+            printf ("Enter the roll no: ");
+            int rollno;
+            scanf("%d", &rollno);
+            add_user(name, rollno);
+        }
+        if (choi==2){
+            search_user();
+        }
+        if (choi==3){
+            break;
+        }
+    }
 }
