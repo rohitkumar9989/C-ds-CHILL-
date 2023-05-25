@@ -56,7 +56,7 @@ void search_user(){
     fread(&read, sizeof(node *), 1, pt);
     while (read!=NULL){
         if (read->emp.roll_no==roll){
-            printf ("Name is %s", read->emp.name);
+            printf ("Name is %s\n", read->emp.name);
             printf ("Enter the password: ");
             char pass[10];
             scanf ("%s", pass);
@@ -64,14 +64,17 @@ void search_user(){
                 printf ("The token is: %s\n", read->emp.token_.token);
                 break;
             }
-            read=read->next;
         }
+        read=read->next;
+    }
+    if (read==NULL){
+        printf ("An employee with roll %d was not found\n", roll);
     }
     fclose(pt);
 }
 int main(){
     while (1){
-        printf ("Enter the choices from below: \n1)Enter User\n2)Search User\nChoice:");
+        printf ("Enter the choices from below: \n1)Enter User\n2)Search User\n3)Exit\nChoice:");
         int choi;
         scanf("%d", &choi);
         if (choi==1){
