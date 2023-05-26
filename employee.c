@@ -46,7 +46,7 @@ void add_user(char nam[], int roll_no){
     }
 }
 void search_user(){
-    printf ("Enter the user roll: ");
+    printf ("Enter the user id: ");
     int roll;
     scanf ("%d",&roll);
     FILE *pt;
